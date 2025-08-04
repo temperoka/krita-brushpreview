@@ -24,7 +24,7 @@ void KisSurfaceColorSpaceWrapperTest::test()
     // test direct conversion to QColorSpace
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QSurfaceFormat::ColorSpace cs4 = w4;
-    QVERIFY(cs4 == QSurfaceFormat::scRGBColorSpace);
+    QVERIFY(cs4 == QSurfaceFormat::sRGBColorSpace);
 #else
     QColorSpace cs4 = w4;
     QVERIFY(cs4 == QColorSpace::SRgbLinear);
@@ -35,8 +35,8 @@ void KisSurfaceColorSpaceWrapperTest::test()
     QVERIFY(w1 == QSurfaceFormat::DefaultColorSpace);
     QVERIFY(w2 == QSurfaceFormat::DefaultColorSpace);
     QVERIFY(w3 == QSurfaceFormat::sRGBColorSpace);
-    QVERIFY(w4 == QSurfaceFormat::scRGBColorSpace);
-    QVERIFY(w5 == QSurfaceFormat::bt2020PQColorSpace);
+    QVERIFY(w4 == QSurfaceFormat::sRGBColorSpace);
+    QVERIFY(w5 == KisSurfaceColorSpaceWrapper::bt2020PQColorSpace);
 #else
     QVERIFY(w1 == QColorSpace());
     QVERIFY(w2 == QColorSpace());
@@ -48,7 +48,7 @@ void KisSurfaceColorSpaceWrapperTest::test()
     // test assignment
     w1 = w5;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QVERIFY(w1 == QSurfaceFormat::bt2020PQColorSpace);
+    QVERIFY(w1 == KisSurfaceColorSpaceWrapper::bt2020PQColorSpace);
 #else
     QVERIFY(w1 == QColorSpace::Bt2100Pq);
 #endif
@@ -56,7 +56,7 @@ void KisSurfaceColorSpaceWrapperTest::test()
     // test move assignment
     w1 = std::move(w4);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QVERIFY(w1 == QSurfaceFormat::scRGBColorSpace);
+    QVERIFY(w1 == QSurfaceFormat::sRGBColorSpace);
 #else
     QVERIFY(w1 == QColorSpace::SRgbLinear);
 #endif
@@ -67,13 +67,13 @@ void KisSurfaceColorSpaceWrapperTest::testConstruction()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto w2 = KisSurfaceColorSpaceWrapper::fromQtColorSpace(QSurfaceFormat::DefaultColorSpace);
     auto w3 = KisSurfaceColorSpaceWrapper::fromQtColorSpace(QSurfaceFormat::sRGBColorSpace);
-    auto w4 = KisSurfaceColorSpaceWrapper::fromQtColorSpace(QSurfaceFormat::scRGBColorSpace);
-    auto w5 = KisSurfaceColorSpaceWrapper::fromQtColorSpace(QSurfaceFormat::bt2020PQColorSpace);
+    auto w4 = KisSurfaceColorSpaceWrapper::fromQtColorSpace(QSurfaceFormat::sRGBColorSpace);
+
 
     QVERIFY(w2 == QSurfaceFormat::DefaultColorSpace);
     QVERIFY(w3 == QSurfaceFormat::sRGBColorSpace);
-    QVERIFY(w4 == QSurfaceFormat::scRGBColorSpace);
-    QVERIFY(w5 == QSurfaceFormat::bt2020PQColorSpace);
+    QVERIFY(w4 == QSurfaceFormat::sRGBColorSpace);
+
 #else
     auto w2 = KisSurfaceColorSpaceWrapper::fromQtColorSpace(QColorSpace());
     auto w3 = KisSurfaceColorSpaceWrapper::fromQtColorSpace(QColorSpace::SRgb);
